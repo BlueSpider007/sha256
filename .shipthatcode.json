@@ -1,0 +1,58 @@
+{
+  "course": "build-sha256",
+  "language": "cpp",
+  "language_id": 1054,
+  "entrypoint": "main.cpp",
+  "version": 1,
+  "content_hash": "88f0dd1f16c23a65",
+  "lessons": [
+    {
+      "slug": "bit-tricks",
+      "tests_hash": "e527801e7932"
+    },
+    {
+      "slug": "endianness",
+      "tests_hash": "3e9cef5ab761"
+    },
+    {
+      "slug": "constants",
+      "tests_hash": "382dc0e4e7cd"
+    },
+    {
+      "slug": "schedule",
+      "tests_hash": "1d37c9d0d3d2"
+    },
+    {
+      "slug": "compression",
+      "tests_hash": "a8e108a65094"
+    },
+    {
+      "slug": "padding",
+      "tests_hash": "a6c5ae4c7b58"
+    },
+    {
+      "slug": "merkle-damgard",
+      "tests_hash": "1a7a7788b832"
+    },
+    {
+      "slug": "length-extension",
+      "tests_hash": "4a3021fef282"
+    },
+    {
+      "slug": "test-vectors",
+      "tests_hash": "a509a26f4bd5"
+    },
+    {
+      "slug": "hmac",
+      "tests_hash": "94e3c88978cd"
+    },
+    {
+      "slug": "sha-224",
+      "tests_hash": "bd9fbf278bb3"
+    },
+    {
+      "slug": "full-sha256",
+      "tests_hash": "a647de48c06c"
+    }
+  ]
+}
