@@ -1,30 +1,7 @@
 #include <bits/stdc++.h>
-#include <cmath>
 #include <cstdint>
-#include <iostream>
 #include <vector>
 using namespace std;
-
-/*** hex and uint32_t conversions ***/
-uint32_t hex2int(const string &hex) {
-    uint32_t value;
-    auto [ptr, ec] = from_chars(hex.data(), hex.data() + hex.size(), value, 16);
-    if (hex.empty() || ec != std::errc{} || ptr != hex.data() + hex.size()) {
-        throw std::invalid_argument("Invalid hex string");
-    }
-    return value;
-}
-string int2hex(uint32_t value) {
-    char buffer[9];
-    auto [ptr, ec] = to_chars(buffer, buffer + 8, value, 16);
-    if (ec != errc{}) {
-        throw runtime_error("Hex conversion failed");
-    }
-    string result(buffer, ptr);
-    result.insert(0, 8 - result.size(), '0');
-
-    return result;
-}
 
 /*** bit operations ***/
 uint32_t ROTR(uint32_t x, int n) { return (x >> n) | (x << (32 - n)); }
@@ -63,6 +40,40 @@ vector<uint32_t> genetateInitialHash() {
     return H;
 }
 
+/*** misc conversion functions ***/
+uint32_t hex2int(const string &hex) {
+    uint32_t value;
+    auto [ptr, ec] = from_chars(hex.data(), hex.data() + hex.size(), value, 16);
+    if (hex.empty() || ec != std::errc{} || ptr != hex.data() + hex.size()) {
+        throw std::invalid_argument("Invalid hex string");
+    }
+    return value;
+}
+string int2hex(uint32_t value) {
+    char buffer[9];
+    auto [ptr, ec] = to_chars(buffer, buffer + 8, value, 16);
+    if (ec != errc{}) {
+        throw runtime_error("Hex conversion failed");
+    }
+    string result(buffer, ptr);
+    result.insert(0, 8 - result.size(), '0');
+
+    return result;
+}
+// ints.size() must = 16
+vector<uint32_t> generateWords(const vector<uint32_t> &ints) {
+    vector<uint32_t> w;
+    for (auto a : ints) {
+        w.push_back(a);
+    }
+    for (int i = 16; i < 64; ++i) {
+        uint32_t s0 = sigma0(w[i - 15]);
+        uint32_t s1 = sigma1(w[i - 2]);
+        w.push_back((w[i - 16] + s0 + w[i - 7] + s1));
+    }
+    return w;
+}
+
 /*** main ***/
 int main() {
     string line;
@@ -70,24 +81,17 @@ int main() {
     vector<uint32_t> H = genetateInitialHash();
     while (getline(cin, line)) {
         istringstream in(line);
-        string cmd;
-        if (!(in >> cmd)) {
+        string s;
+        if (!(in >> s)) {
             continue;
-        } else if (cmd == "K") {
-            int i;
-            in >> i;
-            if (i < 64) {
-                cout << int2hex(K[i]) << '\n';
-            } else {
-                cout << "ERR out of range\n";
+        } else {
+            vector<uint32_t> v;
+            for (int i = 0; i < 16; ++i) {
+                v.push_back(hex2int(s.substr(i * 8, 8)));
             }
-        } else if (cmd == "H") {
-            int i;
-            in >> i;
-            if (i < 8) {
-                cout << int2hex(H[i]) << '\n';
-            } else {
-                cout << "ERR out of range\n";
+            vector<uint32_t> r = generateWords(v);
+            for (int i = 0; i < 64; ++i) {
+                cout << "W[" << i << "]=" << int2hex(r[i]) << '\n';
             }
         }
     }
