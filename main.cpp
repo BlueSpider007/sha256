@@ -1,13 +1,9 @@
 #include <bits/stdc++.h>
-#include <charconv>
 #include <cstdint>
-#include <ios>
-#include <stdexcept>
-#include <string>
-#include <system_error>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 using namespace std;
-
-// TODO (bit-tricks): implement per the lesson description.
 
 uint32_t hex2int(const string &hex) {
     uint32_t value;
@@ -45,46 +41,22 @@ int main() {
         string cmd;
         if (!(in >> cmd)) {
             continue;
-        } else if (cmd == "ROTR") {
-            string h;
-            int n;
-            in >> h >> n;
-            uint32_t res = ROTR(hex2int(h), n);
-            cout << int2hex(res);
-        } else if (cmd == "SIGMA0") {
-            string h;
-            in >> h;
-            uint32_t res = SIGMA0(hex2int(h));
-            cout << int2hex(res);
-        } else if (cmd == "SIGMA1") {
-            string h;
-            in >> h;
-            uint32_t res = SIGMA1(hex2int(h));
-            cout << int2hex(res);
-        } else if (cmd == "sigma0") {
-            string h;
-            in >> h;
-            uint32_t res = sigma0(hex2int(h));
-            cout << int2hex(res);
-        } else if (cmd == "sigma1") {
-            string h;
-            in >> h;
-            uint32_t res = sigma1(hex2int(h));
-            cout << int2hex(res);
-        } else if (cmd == "CH") {
+        } else if (cmd == "PACK") {
             string x;
-            string y;
-            string z;
-            in >> x >> y >> z;
-            uint32_t res = Ch(hex2int(x), hex2int(y), hex2int(z));
-            cout << int2hex(res);
-        } else if (cmd == "MAJ") {
+            in >> x;
+            uint32_t i = hex2int(x);
+            cout << x << "\n";
+        } else if (cmd == "UNPACK") {
             string x;
-            string y;
-            string z;
-            in >> x >> y >> z;
-            uint32_t res = Maj(hex2int(x), hex2int(y), hex2int(z));
-            cout << int2hex(res);
+            in >> x;
+            uint32_t i = hex2int(x);
+            for (int i = 3; i >= 0; --i) {
+                if (i != 3) {
+                    cout << ' ';
+                }
+                cout << setw(2) << setfill('0') << x.substr(6 - i * 2, 2);
+            }
+            cout << "\n";
         }
     }
 }
